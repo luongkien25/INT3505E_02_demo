@@ -5,7 +5,7 @@ from functools import wraps
 from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify, g, current_app, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from authlib.integrations.flask_client import OAuth  # OAuth2/OIDC client
+from authlib.integrations.flask_client import OAuth  
 from extensions import db
 from models import Customer, Role, RefreshToken
 

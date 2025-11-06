@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "Users API Demo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Demo collection for GET/POST /users against Flask app. Includes basic tests."
+  },
+  "item": [
+    {
+      "name": "GET /users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "Accept", "value": "application/json"}
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["users"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status is 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"body is array\", function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Accept", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 999,\n  \"name\": \"Perf User\",\n  \"email\": \"perf.user@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["users"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status is 201\", function () { pm.response.to.have.status(201); });",
+              "const body = pm.response.json();",
+              "pm.test(\"has id\", function () { pm.expect(body).to.have.property('id'); });",
+              "pm.test(\"has name\", function () { pm.expect(body).to.have.property('name'); });"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:5000" }
+  ]
+}
