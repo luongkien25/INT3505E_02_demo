@@ -37,10 +37,34 @@ def create_notification():
 
 @app.route("/notifications", methods=["GET"])
 def list_notifications():
-    """
-    Đọc danh sách tất cả notifications.
-    """
-    return jsonify(notifications)
+    
+    user_id = request.args.get("user_id")     
+    unread = request.args.get("unread")        
+    page = int(request.args.get("page", 1))   
+    page_size = int(request.args.get("page_size", 10))  
+
+    result = notifications
+
+    # ----- Filtering -----
+    if user_id is not None:
+        result = [n for n in result if str(n["user_id"]) == str(user_id)]
+
+    if unread == "true":
+        result = [n for n in result if not n["read"]]
+
+    # ----- Pagination -----
+    total = len(result)
+    start = (page - 1) * page_size
+    end = start + page_size
+    data = result[start:end]
+
+    return jsonify({
+        "page": page,
+        "page_size": page_size,
+        "total": total,
+        "data": data
+    })
+
 
 
 @app.route("/notifications/<int:notif_id>", methods=["GET"])
