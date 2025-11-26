@@ -65,7 +65,7 @@ def create_app(config: dict | None = None):
     app.db = db
     app.User = User
     return app
-
+    set
 
 if __name__ == '__main__':
     app = create_app()

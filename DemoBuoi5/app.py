@@ -171,6 +171,7 @@ def list_orders():
             'meta': {'total': pag.total, 'page': pag.page, 'per_page': pag.per_page, 'pages': pag.pages}
         })
     return jsonify([order_to_dict(o) for o in q.all()])
+    
 
 @app.route('/favicon.ico')
 def favicon():
